@@ -1,3 +1,5 @@
+import 'package:rate_tracker/features/rate/domain/entities/rate_code.dart';
+
 class Rate {
   final String result;
   final String documentation;
@@ -10,7 +12,7 @@ class Rate {
   final String? targetCode;
   final double? conversionRate;
   final Map<String, double?>? conversionRates;
-  final List<String>? supportedCodes;
+  final List<RateCode>? supportedCodes;
 
   Rate({
     required this.result,

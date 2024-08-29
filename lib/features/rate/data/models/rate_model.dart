@@ -1,3 +1,4 @@
+import 'package:rate_tracker/features/rate/data/models/rate_code_model.dart';
 import 'package:rate_tracker/features/rate/domain/entities/rate.dart';
 
 class RateModel extends Rate {
@@ -18,18 +19,22 @@ class RateModel extends Rate {
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     return RateModel(
-        result: json['result'],
-        documentation: json['documentation'],
-        termsOfUse: json['termsOfUse'],
-        timeLastUpdateUnix: json['timeLastUpdateUnix'],
-        timeLastUpdateUtc: json['timeLastUpdateUtc'],
-        timeNextUpdateUnix: json['timeNextUpdateUnix'],
-        timeNextUpdateUtc: json['timeNextUpdateUtc'],
-        baseCode: json['baseCode'],
-        targetCode: json['targetCode'],
-        conversionRate: json['conversionRate'],
-        conversionRates: json['conversionRates'],
-        supportedCodes: json['supportedCodes']);
+      result: json['result'],
+      documentation: json['documentation'],
+      termsOfUse: json['termsOfUse'],
+      timeLastUpdateUnix: json['timeLastUpdateUnix'],
+      timeLastUpdateUtc: json['timeLastUpdateUtc'],
+      timeNextUpdateUnix: json['timeNextUpdateUnix'],
+      timeNextUpdateUtc: json['timeNextUpdateUtc'],
+      baseCode: json['baseCode'],
+      targetCode: json['targetCode'],
+      conversionRate: json['conversionRate'],
+      conversionRates: json['conversionRates'],
+      supportedCodes: (json['supportedCodes'] as List?)
+          ?.map(
+              (dynamic e) => RateCodeModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 
   RateModel copyWith({
@@ -44,7 +49,7 @@ class RateModel extends Rate {
     String? targetCode,
     double? conversionRate,
     Map<String, double?>? conversionRates,
-    List<String>? supportedCodes,
+    List<RateCodeModel>? supportedCodes,
   }) {
     return RateModel(
       result: result ?? this.result,

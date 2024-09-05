@@ -6,7 +6,7 @@ class RateCodeModel extends RateCode {
     required super.fullName,
   });
 
-  factory RateCodeModel.fromJson(Map<String, dynamic> json) {
+  factory RateCodeModel.fromJson(List<dynamic> json) {
     return RateCodeModel(
       code: json[0],
       fullName: json[1],

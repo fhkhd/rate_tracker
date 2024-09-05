@@ -19,8 +19,8 @@ class RateRepositoryImpl implements RateRepository {
   @override
   Future<Either<Failure, Rate>> getRate() async {
     try {
-      final blogs = await rateRemoteDataSource.getRate();
-      return right(blogs);
+      final rate = await rateRemoteDataSource.getRate();
+      return right(rate);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }

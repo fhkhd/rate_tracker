@@ -21,7 +21,7 @@ class RateModel extends Rate {
     return RateModel(
       result: json['result'],
       documentation: json['documentation'],
-      termsOfUse: json['termsOfUse'],
+      termsOfUse: json['termsOfUse'] ?? '',
       timeLastUpdateUnix: json['timeLastUpdateUnix'],
       timeLastUpdateUtc: json['timeLastUpdateUtc'],
       timeNextUpdateUnix: json['timeNextUpdateUnix'],
@@ -30,9 +30,8 @@ class RateModel extends Rate {
       targetCode: json['targetCode'],
       conversionRate: json['conversionRate'],
       conversionRates: json['conversionRates'],
-      supportedCodes: (json['supportedCodes'] as List?)
-          ?.map(
-              (dynamic e) => RateCodeModel.fromJson(e as Map<String, dynamic>))
+      supportedCodes: (json['supported_codes'] as List?)
+          ?.map((dynamic e) => RateCodeModel.fromJson(e as List))
           .toList(),
     );
   }

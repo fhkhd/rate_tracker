@@ -18,9 +18,7 @@ class RateRemoteDataSourceImpl implements RateRemoteDataSource {
     final response = await http.get(
       Uri.parse('https://v6.exchangerate-api.com/v6/$apiKey/codes'),
     );
-    print("status code : ${response.statusCode}");
-    print(jsonDecode(response.body)['supported_codes']);
-    throw UnimplementedError();
+    return RateModel.fromJson(jsonDecode(response.body));
   }
 
   @override

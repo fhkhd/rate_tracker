@@ -56,7 +56,6 @@ class AppTheme extends ThemeExtension<AppTheme> {
     final primaryTextTheme = GoogleFonts.robotoTextTheme();
     final secondaryTextTheme = GoogleFonts.montserratTextTheme();
 
-    // تنظیم رنگ روشن برای متون
     final textTheme = primaryTextTheme.copyWith(
       displaySmall: secondaryTextTheme.displaySmall
           ?.copyWith(color: colorScheme.onBackground),

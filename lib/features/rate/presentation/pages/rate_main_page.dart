@@ -31,25 +31,33 @@ class _RateMainPageState extends State<RateMainPage> {
         },
         builder: (context, state) {
           if (state is RateLoading) {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
           if (state is RateDisplaySuccess) {
             return GridView.builder(
-              itemCount: 40,
-              itemBuilder: (context, index) => const Card(
+              itemCount: state.rate.supportedCodes?.length,
+              itemBuilder: (context, index) => Card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("USD"),
-                    Text("United States Dollar"),
+                    Text(
+                      state.rate.supportedCodes![index].code,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text(
+                      state.rate.supportedCodes![index].fullName,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
                   ],
                 ),
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 5.0,
-                mainAxisSpacing: 5.0,
+                crossAxisCount: 2,
               ),
             );
             //   ListView.builder(

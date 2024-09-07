@@ -3,7 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/connection_checker.dart';
-import '../../domain/entities/rate.dart';
+import '../../domain/entities/rate_codes.dart';
 import '../../domain/repositories/rate_repository.dart';
 import '../datasources/rate_remote_data_source.dart';
 
@@ -17,7 +17,7 @@ class RateRepositoryImpl implements RateRepository {
   );
 
   @override
-  Future<Either<Failure, Rate>> getRate() async {
+  Future<Either<Failure, RateCodes>> getRate() async {
     try {
       final rate = await rateRemoteDataSource.getRate();
       return right(rate);

@@ -39,7 +39,7 @@ class _RateMainPageState extends State<RateMainPage> {
             return Padding(
               padding: EdgeInsets.all(1.w),
               child: GridView.builder(
-                itemCount: state.rate.supportedCodes?.length,
+                itemCount: state.rateCodes.supportedCodes?.length,
                 itemBuilder: (context, index) => Card(
                   margin: EdgeInsets.all(0.5.w),
                   child: Column(
@@ -47,12 +47,12 @@ class _RateMainPageState extends State<RateMainPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        state.rate.supportedCodes![index].code,
+                        state.rateCodes.supportedCodes![index].code,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       Text(
-                        state.rate.supportedCodes![index].fullName,
+                        state.rateCodes.supportedCodes![index].fullName,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),

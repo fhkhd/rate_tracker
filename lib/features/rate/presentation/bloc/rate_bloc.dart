@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/usecase/usecase.dart';
-import '../../domain/entities/rate.dart';
+import '../../domain/entities/rate_codes.dart';
 import '../../domain/usecases/get_rate_codes.dart';
 
 part 'rate_event.dart';

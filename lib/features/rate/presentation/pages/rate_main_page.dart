@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 
 import '../bloc/rate_bloc.dart';
 
@@ -36,42 +36,34 @@ class _RateMainPageState extends State<RateMainPage> {
             );
           }
           if (state is RateDisplaySuccess) {
-            return GridView.builder(
-              itemCount: state.rate.supportedCodes?.length,
-              itemBuilder: (context, index) => Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      state.rate.supportedCodes![index].code,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Text(
-                      state.rate.supportedCodes![index].fullName,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ],
+            return Padding(
+              padding: EdgeInsets.all(1.w),
+              child: GridView.builder(
+                itemCount: state.rate.supportedCodes?.length,
+                itemBuilder: (context, index) => Card(
+                  margin: EdgeInsets.all(0.5.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        state.rate.supportedCodes![index].code,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Text(
+                        state.rate.supportedCodes![index].fullName,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
+                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                 ),
               ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
             );
-            //   ListView.builder(
-            //   itemCount: state.blogs.length,
-            //   itemBuilder: (context, index) {
-            //     final blog = state.blogs[index];
-            //     return BlogCard(
-            //       blog: blog,
-            //       color: index % 2 == 0
-            //           ? AppPallete.gradient1
-            //           : AppPallete.gradient2,
-            //     );
-            //   },
-            // );
           }
           return const SizedBox();
         },

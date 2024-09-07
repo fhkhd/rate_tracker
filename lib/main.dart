@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 
 import 'core/theme/theme.dart';
 import 'features/rate/presentation/bloc/rate_bloc.dart';
@@ -24,11 +25,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Rate Tracker',
-      theme: const AppTheme().toThemeData(),
-      home: const HomePage(),
-    );
+    return ResponsiveSizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Rate Tracker',
+        theme: const AppTheme().toThemeData(),
+        home: const HomePage(),
+      );
+    });
   }
 }

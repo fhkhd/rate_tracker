@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rate_tracker/core/utils/show_snackbar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../bloc/rate_bloc.dart';
@@ -24,9 +25,7 @@ class _RateMainPageState extends State<RateMainPage> {
       body: BlocConsumer<RateBloc, RateState>(
         listener: (context, state) {
           if (state is RateFailure) {
-            // return Text("${state.error}");
-            print("RateFailure is : ${state.error}");
-            // showSnackBar(context, state.error);
+            showSnackBar(context, state.error);
           }
         },
         builder: (context, state) {

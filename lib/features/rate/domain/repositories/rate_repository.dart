@@ -3,5 +3,5 @@ import '../../../../core/error/failures.dart';
 import '../entities/rate_codes.dart';
 
 abstract interface class RateRepository {
-  Future<Either<Failure, RateCodes>> getRate();
+  Future<Either<Failure, RateCodes>> getRateCodes();
 }

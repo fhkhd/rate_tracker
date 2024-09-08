@@ -12,6 +12,6 @@ class GetRateCodes implements UseCase<RateCodes, NoParams> {
 
   @override
   Future<Either<Failure, RateCodes>> call(NoParams params) async {
-    return await rateRepository.getRate();
+    return await rateRepository.getRateCodes();
   }
 }

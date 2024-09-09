@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_tracker/core/utils/show_snackbar.dart';
 import 'package:sizer/sizer.dart';
+import 'package:html/dom.dart' as htmlParser;
 
 import '../bloc/rate_bloc.dart';
 
@@ -36,11 +37,18 @@ class _RateMainPageState extends State<RateMainPage> {
           }
           if (state is RateDisplaySuccess) {
             return Padding(
-              padding: EdgeInsets.all(1.w),
+              padding: EdgeInsets.all(2.w),
               child: GridView.builder(
                 itemCount: state.rateCodes.supportedCodes?.length,
                 itemBuilder: (context, index) => Card(
-                  margin: EdgeInsets.all(0.5.w),
+                  margin: EdgeInsets.all(1.w),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      width: 1,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -51,15 +59,23 @@ class _RateMainPageState extends State<RateMainPage> {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       Text(
+                        htmlParser.DocumentFragment.html("&#36;").text ?? "",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              fontSize: 14.sp,
+                            ),
+                      ),
+                      Text(
                         state.rateCodes.supportedCodes![index].fullName,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],
                   ),
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 3,
                 ),
               ),
             );

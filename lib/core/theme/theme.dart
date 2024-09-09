@@ -53,7 +53,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
   }
 
   ThemeData _base(final ColorScheme colorScheme) {
-    final primaryTextTheme = GoogleFonts.robotoTextTheme();
+    final primaryTextTheme = GoogleFonts.interTextTheme();
     final secondaryTextTheme = GoogleFonts.montserratTextTheme();
 
     final textTheme = primaryTextTheme.copyWith(

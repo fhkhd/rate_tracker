@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_tracker/core/utils/show_snackbar.dart';
+import 'package:rate_tracker/features/rate/presentation/widgets/rate_code_widget.dart';
 import 'package:sizer/sizer.dart';
-import 'package:html/dom.dart' as htmlParser;
 
 import '../bloc/rate_bloc.dart';
 
@@ -40,39 +40,8 @@ class _RateMainPageState extends State<RateMainPage> {
               padding: EdgeInsets.all(2.w),
               child: GridView.builder(
                 itemCount: state.rateCodes.supportedCodes?.length,
-                itemBuilder: (context, index) => Card(
-                  margin: EdgeInsets.all(1.w),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
-                      width: 1,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        state.rateCodes.supportedCodes![index].code,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      Text(
-                        htmlParser.DocumentFragment.html("&#36;").text ?? "",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
-                              fontSize: 14.sp,
-                            ),
-                      ),
-                      Text(
-                        state.rateCodes.supportedCodes![index].fullName,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                    ],
-                  ),
+                itemBuilder: (context, index) => RateCodeWidget(
+                  rateCode: state.rateCodes.supportedCodes![index],
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,

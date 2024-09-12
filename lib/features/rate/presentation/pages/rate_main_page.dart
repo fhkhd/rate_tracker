@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_tracker/core/utils/show_snackbar.dart';
 import 'package:rate_tracker/features/rate/presentation/widgets/rate_code_widget.dart';
@@ -30,26 +32,64 @@ class _RateMainPageState extends State<RateMainPage> {
           }
         },
         builder: (context, state) {
-          if (state is RateLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is RateDisplaySuccess) {
-            return Padding(
-              padding: EdgeInsets.all(2.w),
-              child: GridView.builder(
-                itemCount: state.rateCodes.supportedCodes?.length,
-                itemBuilder: (context, index) => RateCodeWidget(
-                  rateCode: state.rateCodes.supportedCodes![index],
+          print(state);
+          return Padding(
+            padding: EdgeInsets.all(2.w),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(1.w),
+                  child: CupertinoSearchTextField(
+                    onChanged: (value) async {
+                      context.read<RateBloc>().add(
+                            RateSearchRateCode(
+                              value: value,
+                            ),
+                          );
+                    },
+                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                    itemColor: Theme.of(context).colorScheme.tertiary,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                  ),
                 ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     RateCodeWidget(
+                //       rateCode: state.rateCodes.supportedCodes![0],
+                //     ),
+                //     Text("pair to : "),
+                //     RateCodeWidget(
+                //       rateCode: state.rateCodes.supportedCodes![1],
+                //     ),
+                //   ],
+                // ),
+                Padding(
+                  padding: EdgeInsets.all(1.w),
+                  child: const Divider(),
                 ),
-              ),
-            );
-          }
-          return const SizedBox();
+                if (state is RateSearchDisplaySuccess)
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: state.rateCodes.supportedCodes?.length,
+                      itemBuilder: (context, index) => RateCodeWidget(
+                        rateCode: state.rateCodes.supportedCodes![index],
+                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                      ),
+                    ),
+                  ),
+                if (state is RateLoading)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              ],
+            ),
+          );
         },
       ),
     );

@@ -15,6 +15,22 @@ final class RateFailure extends RateState {
 
 final class RateUploadSuccess extends RateState {}
 
+final class RateSearchFailure extends RateState {
+  final String error;
+
+  RateSearchFailure(this.error);
+}
+
+final class RateSearchDisplaySuccess extends RateState {
+  final RateCodes rateCodes;
+
+  RateSearchDisplaySuccess(this.rateCodes);
+}
+
+final class FirstRateSearch extends RateState {}
+
+final class SecondRateSearch extends RateState {}
+
 final class RateDisplaySuccess extends RateState {
   final RateCodes rateCodes;
 

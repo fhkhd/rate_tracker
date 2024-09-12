@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:rate_tracker/features/rate/domain/usecases/get_rate_codes.dart';
+import 'package:rate_tracker/features/rate/domain/usecases/search_rate_codes.dart';
 
 import 'core/network/connection_checker.dart';
 import 'features/rate/data/datasources/rate_remote_data_source.dart';

@@ -12,7 +12,26 @@ class SearchRateCodes implements UseCase<RateCodes, SearchValue> {
 
   @override
   Future<Either<Failure, RateCodes>> call(SearchValue value) async {
-    return await rateRepository.getRateCodes();
+    final res = await rateRepository.getRateCodes();
+    res.fold(
+      (l) {},
+      (r) {
+        RateCodes? rateCodes = RateCodes(
+          documentation: '',
+          result: '',
+          termsOfUse: '',
+          supportedCodes: [],
+        );
+        for (var result in r.supportedCodes!) {
+          if (result.code.toString().contains(value.value.toUpperCase()) &&
+              value.value != "") {
+            rateCodes.supportedCodes?.add(result);
+          }
+        }
+        r.supportedCodes = rateCodes.supportedCodes;
+      },
+    );
+    return res;
   }
 }
 

@@ -2,7 +2,7 @@ class RateCodes {
   final String result;
   final String documentation;
   final String termsOfUse;
-  final List<RateCode>? supportedCodes;
+  List<RateCode>? supportedCodes;
 
   RateCodes({
     required this.result,

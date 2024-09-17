@@ -13,14 +13,23 @@ final class RateFailure extends RateState {
   RateFailure(this.error);
 }
 
-final class RateUploadSuccess extends RateState {}
-
 final class RateSearchDisplaySuccess extends RateState {
   final RateCodes rateCodes;
+  final RateCode? rateCode;
 
-  RateSearchDisplaySuccess(this.rateCodes);
+  RateSearchDisplaySuccess(this.rateCodes, this.rateCode);
 }
 
-final class FirstRateSearch extends RateState {}
+final class FirstRateSearch extends RateState {
+  final RateCode firstRateCode;
 
-final class SecondRateSearch extends RateState {}
+  FirstRateSearch(this.firstRateCode);
+}
+
+final class SecondRateSearch extends FirstRateSearch {
+  final RateCode secondRateCode;
+
+  SecondRateSearch(super.firstRateCode, this.secondRateCode);
+}
+
+final class PairRates extends RateState {}

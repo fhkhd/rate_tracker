@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rate_tracker/features/rate/domain/entities/rate_codes.dart';
 import 'package:sizer/sizer.dart';
@@ -6,11 +5,9 @@ import 'package:html/dom.dart' as htmlParser;
 
 class RateCodeWidget extends StatelessWidget {
   final RateCode rateCode;
+  final void Function()? onTap;
 
-  const RateCodeWidget({
-    super.key,
-    required this.rateCode,
-  });
+  const RateCodeWidget({super.key, required this.rateCode, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,7 @@ class RateCodeWidget extends StatelessWidget {
       height: 35.w,
       width: 35.w,
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Card(
           margin: EdgeInsets.all(1.w),
           shape: RoundedRectangleBorder(

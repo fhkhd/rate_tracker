@@ -5,6 +5,7 @@ import 'package:rate_tracker/core/utils/show_snackbar.dart';
 import 'package:rate_tracker/features/rate/presentation/widgets/rate_code_widget.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../domain/entities/rate_codes.dart';
 import '../bloc/rate_bloc.dart';
 
 class RateMainPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _RateMainPageState extends State<RateMainPage> {
 
   @override
   Widget build(BuildContext context) {
+    SearchController searchController = SearchController();
     return Scaffold(
       body: BlocConsumer<RateBloc, RateState>(
         listener: (context, state) {
@@ -30,6 +32,7 @@ class _RateMainPageState extends State<RateMainPage> {
           }
         },
         builder: (context, state) {
+          print("state is : ${state}");
           return Padding(
             padding: EdgeInsets.all(2.w),
             child: Column(
@@ -37,12 +40,22 @@ class _RateMainPageState extends State<RateMainPage> {
                 Padding(
                   padding: EdgeInsets.all(1.w),
                   child: CupertinoSearchTextField(
-                    onChanged: (value) async {
-                      context.read<RateBloc>().add(
-                            RateSearchRateCode(
-                              value: value,
-                            ),
-                          );
+                    controller: searchController,
+                    onSubmitted: (value) async {
+                      if (state is FirstRateSearch) {
+                        context.read<RateBloc>().add(
+                              RateSearchRateCode(
+                                value: value,
+                                firstRateCode: state.firstRateCode,
+                              ),
+                            );
+                      } else {
+                        context.read<RateBloc>().add(
+                              RateSearchRateCode(
+                                value: value,
+                              ),
+                            );
+                      }
                     },
                     placeholder: "Search rate code",
                     backgroundColor: Theme.of(context).colorScheme.onSecondary,
@@ -52,28 +65,73 @@ class _RateMainPageState extends State<RateMainPage> {
                         ),
                   ),
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     RateCodeWidget(
-                //       rateCode: state.rateCodes.supportedCodes![0],
-                //     ),
-                //     Text("pair to : "),
-                //     RateCodeWidget(
-                //       rateCode: state.rateCodes.supportedCodes![1],
-                //     ),
-                //   ],
-                // ),
-                Padding(
-                  padding: EdgeInsets.all(1.w),
-                  child: const Divider(),
-                ),
+                if (state is FirstRateSearch)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RateCodeWidget(
+                        rateCode: state.firstRateCode,
+                      ),
+                      const Text("pair to : "),
+                      state is SecondRateSearch
+                          ? RateCodeWidget(
+                              rateCode: state.secondRateCode,
+                            )
+                          : RateCodeWidget(
+                              rateCode: RateCode(
+                                code: "",
+                                fullName: "",
+                              ),
+                            ),
+                    ],
+                  ),
+                // if (state is SecondRateSearch)
+                //   Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       RateCodeWidget(
+                //         rateCode: state.firstRateCode,
+                //       ),
+                //       const Text("pair to : "),
+                //       RateCodeWidget(
+                //         rateCode: state.secondRateCode,
+                //       ),
+                //     ],
+                //   ),
+                if (state is FirstRateSearch || state is SecondRateSearch)
+                  Padding(
+                    padding: EdgeInsets.all(1.w),
+                    child: const Divider(),
+                  ),
                 if (state is RateSearchDisplaySuccess)
                   Expanded(
                     child: GridView.builder(
                       itemCount: state.rateCodes.supportedCodes?.length,
                       itemBuilder: (context, index) => RateCodeWidget(
                         rateCode: state.rateCodes.supportedCodes![index],
+                        onTap: () {
+                          searchController.clear();
+                          if (state.rateCode != null) {
+                            context.read<RateBloc>().add(
+                                  RateSelectSecondRateCode(
+                                    firstRateCode: state.rateCode ??
+                                        RateCode(
+                                          code: "",
+                                          fullName: "",
+                                        ),
+                                    secondRateCode:
+                                        state.rateCodes.supportedCodes![index],
+                                  ),
+                                );
+                          } else {
+                            context.read<RateBloc>().add(
+                                  RateSelectFirstRateCode(
+                                    firstRateCode:
+                                        state.rateCodes.supportedCodes![index],
+                                  ),
+                                );
+                          }
+                        },
                       ),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -82,8 +140,10 @@ class _RateMainPageState extends State<RateMainPage> {
                     ),
                   ),
                 if (state is RateLoading)
-                  const Center(
-                    child: CircularProgressIndicator(),
+                  const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
               ],
             ),

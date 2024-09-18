@@ -32,38 +32,52 @@ class _RateMainPageState extends State<RateMainPage> {
           }
         },
         builder: (context, state) {
-          print("state is : ${state}");
           return Padding(
             padding: EdgeInsets.all(2.w),
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.all(1.w),
-                  child: CupertinoSearchTextField(
-                    controller: searchController,
-                    onSubmitted: (value) async {
-                      if (state is FirstRateSearch) {
-                        context.read<RateBloc>().add(
-                              RateSearchRateCode(
-                                value: value,
-                                firstRateCode: state.firstRateCode,
-                              ),
-                            );
-                      } else {
-                        context.read<RateBloc>().add(
-                              RateSearchRateCode(
-                                value: value,
-                              ),
-                            );
-                      }
-                    },
-                    placeholder: "Search rate code",
-                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
-                    itemColor: Theme.of(context).colorScheme.tertiary,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
+                if (state is! SecondRateSearch)
+                  Padding(
+                    padding: EdgeInsets.all(1.w),
+                    child: CupertinoSearchTextField(
+                      controller: searchController,
+                      onSubmitted: (value) async {
+                        if (state is FirstRateSearch) {
+                          context.read<RateBloc>().add(
+                                RateSearchRateCode(
+                                  value: value,
+                                  firstRateCode: state.firstRateCode,
+                                ),
+                              );
+                        } else {
+                          context.read<RateBloc>().add(
+                                RateSearchRateCode(
+                                  value: value,
+                                ),
+                              );
+                        }
+                      },
+                      placeholder: "Search rate code",
+                      backgroundColor:
+                          Theme.of(context).colorScheme.onSecondary,
+                      itemColor: Theme.of(context).colorScheme.tertiary,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                    ),
                   ),
+                Text(
+                  state is SecondRateSearch
+                      ? 'Pair rates'
+                      : state is FirstRateSearch
+                          ? 'Choose the second rate'
+                          : state is RateSearchDisplaySuccess
+                              ? 'Select one rate'
+                              : state is PairRates
+                                  ? 'Pair result'
+                                  : state is RateInitial
+                                      ? 'Choose the first rate'
+                                      : '',
                 ),
                 if (state is FirstRateSearch)
                   Row(
@@ -72,7 +86,51 @@ class _RateMainPageState extends State<RateMainPage> {
                       RateCodeWidget(
                         rateCode: state.firstRateCode,
                       ),
-                      const Text("pair to : "),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 10.w,
+                          ),
+                          InkWell(
+                            onTap: state is SecondRateSearch ? () {} : null,
+                            child: Card(
+                              color: state is SecondRateSearch
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w,
+                                  vertical: 1.h,
+                                ),
+                                child: const Text(
+                                  "Pair to",
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context.read<RateBloc>().add(RateRestSelection());
+                            },
+                            child: Text(
+                              "Rest",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
                       state is SecondRateSearch
                           ? RateCodeWidget(
                               rateCode: state.secondRateCode,

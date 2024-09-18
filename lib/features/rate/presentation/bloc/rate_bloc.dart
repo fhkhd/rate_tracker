@@ -10,7 +10,7 @@ part 'rate_state.dart';
 
 class RateBloc extends Bloc<RateEvent, RateState> {
   final SearchRateCodes _searchRateCodes;
-  RateCode _firstRateCode = RateCode(code: '', fullName: '');
+  RateCode? _firstRateCode;
 
   RateBloc({
     required SearchRateCodes searchRateCodes,
@@ -20,6 +20,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     on<RateSearchRateCode>(_onRateSearchRateCode);
     on<RateSelectFirstRateCode>(_onRateSelectFirstRateCode);
     on<RateSelectSecondRateCode>(_onRateSelectSecondRateCode);
+    on<RateRestSelection>(_onRateRestSelection);
   }
 
   void _onRateSearchRateCode(
@@ -33,7 +34,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
         if (_firstRateCode != null) {
           emit(RateSearchDisplaySuccess(r, _firstRateCode));
           if (event.value == '') {
-            emit(FirstRateSearch(_firstRateCode));
+            emit(FirstRateSearch(_firstRateCode!));
           }
         } else {
           emit(RateSearchDisplaySuccess(r, null));
@@ -54,7 +55,14 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     RateSelectSecondRateCode event,
     Emitter<RateState> emit,
   ) async {
-    emit(FirstRateSearch(_firstRateCode));
-    emit(SecondRateSearch(_firstRateCode, event.secondRateCode));
+    emit(SecondRateSearch(_firstRateCode!, event.secondRateCode));
+  }
+
+  void _onRateRestSelection(
+    RateRestSelection event,
+    Emitter<RateState> emit,
+  ) async {
+    _firstRateCode = null;
+    emit(RateInitial());
   }
 }

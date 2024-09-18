@@ -24,3 +24,5 @@ final class RateSelectSecondRateCode extends RateSelectFirstRateCode {
     required this.secondRateCode,
   });
 }
+
+final class RateRestSelection extends RateEvent {}

@@ -26,3 +26,13 @@ final class RateSelectSecondRateCode extends RateSelectFirstRateCode {
 }
 
 final class RateRestSelection extends RateEvent {}
+
+final class RatePairRateCodes extends RateEvent {
+  final String firstCode;
+  final String secondCode;
+
+  RatePairRateCodes({
+    required this.firstCode,
+    required this.secondCode,
+  });
+}

@@ -33,6 +33,11 @@ void _initRate() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+          () => PairRateCodes(
+        serviceLocator(),
+      ),
+    )
     // Bloc
     ..registerLazySingleton(
       () => RateBloc(searchRateCodes: serviceLocator()),

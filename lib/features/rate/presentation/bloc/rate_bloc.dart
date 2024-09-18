@@ -21,6 +21,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     on<RateSelectFirstRateCode>(_onRateSelectFirstRateCode);
     on<RateSelectSecondRateCode>(_onRateSelectSecondRateCode);
     on<RateRestSelection>(_onRateRestSelection);
+    on<RatePairRateCodes>(_onRatePairRateCodes);
   }
 
   void _onRateSearchRateCode(
@@ -64,5 +65,12 @@ class RateBloc extends Bloc<RateEvent, RateState> {
   ) async {
     _firstRateCode = null;
     emit(RateInitial());
+  }
+
+  void _onRatePairRateCodes(
+    RatePairRateCodes event,
+    Emitter<RateState> emit,
+  ) {
+    print("pairing");
   }
 }

@@ -93,7 +93,16 @@ class _RateMainPageState extends State<RateMainPage> {
                             height: 10.w,
                           ),
                           InkWell(
-                            onTap: state is SecondRateSearch ? () {} : null,
+                            onTap: state is SecondRateSearch
+                                ? () {
+                                    context
+                                        .read<RateBloc>()
+                                        .add(RatePairRateCodes(
+                                          firstCode: state.firstRateCode.code,
+                                          secondCode: state.secondRateCode.code,
+                                        ));
+                                  }
+                                : null,
                             child: Card(
                               color: state is SecondRateSearch
                                   ? Theme.of(context).colorScheme.onPrimary
@@ -143,19 +152,6 @@ class _RateMainPageState extends State<RateMainPage> {
                             ),
                     ],
                   ),
-                // if (state is SecondRateSearch)
-                //   Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       RateCodeWidget(
-                //         rateCode: state.firstRateCode,
-                //       ),
-                //       const Text("pair to : "),
-                //       RateCodeWidget(
-                //         rateCode: state.secondRateCode,
-                //       ),
-                //     ],
-                //   ),
                 if (state is FirstRateSearch || state is SecondRateSearch)
                   Padding(
                     padding: EdgeInsets.all(1.w),

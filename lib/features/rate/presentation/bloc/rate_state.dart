@@ -32,8 +32,12 @@ final class SecondRateSearch extends FirstRateSearch {
   SecondRateSearch(super.firstRateCode, this.secondRateCode);
 }
 
-final class RatePairRatesResult extends RateState {
+final class RatePairRatesResult extends SecondRateSearch {
   final PairCodes pairCodes;
 
-  RatePairRatesResult(this.pairCodes);
+  RatePairRatesResult(
+    this.pairCodes,
+    super.firstRateCode,
+    super.secondRateCode,
+  );
 }

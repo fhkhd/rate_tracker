@@ -14,6 +14,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
   final SearchRateCodes _searchRateCodes;
   final PairRateCodes _pairRateCodes;
   RateCode? _firstRateCode;
+  RateCode? _secondRateCode;
 
   RateBloc({
     required SearchRateCodes searchRateCodes,
@@ -61,6 +62,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     RateSelectSecondRateCode event,
     Emitter<RateState> emit,
   ) async {
+    _secondRateCode = event.secondRateCode;
     emit(SecondRateSearch(_firstRateCode!, event.secondRateCode));
   }
 
@@ -69,6 +71,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     Emitter<RateState> emit,
   ) async {
     _firstRateCode = null;
+    _secondRateCode = null;
     emit(RateInitial());
   }
 
@@ -78,7 +81,12 @@ class RateBloc extends Bloc<RateEvent, RateState> {
   ) async {
     final res = await _pairRateCodes(PairCodesParams(
         firstCode: event.firstCode, secondCode: event.secondCode));
-    res.fold((l) => emit(RateFailure(l.message)),
-        (r) => emit(RatePairRatesResult(r)));
+    res.fold(
+        (l) => emit(RateFailure(l.message)),
+        (r) => emit(RatePairRatesResult(
+              r,
+              _firstRateCode!,
+              _secondRateCode!,
+            )));
   }
 }

@@ -36,7 +36,7 @@ class _RateMainPageState extends State<RateMainPage> {
             padding: EdgeInsets.all(2.w),
             child: Column(
               children: [
-                if (state is! SecondRateSearch)
+                if (state is! SecondRateSearch || state is! RatePairRatesResult)
                   Padding(
                     padding: EdgeInsets.all(1.w),
                     child: CupertinoSearchTextField(
@@ -67,14 +67,14 @@ class _RateMainPageState extends State<RateMainPage> {
                     ),
                   ),
                 Text(
-                  state is SecondRateSearch
-                      ? 'Pair rates'
-                      : state is FirstRateSearch
-                          ? 'Choose the second rate'
-                          : state is RateSearchDisplaySuccess
-                              ? 'Select one rate'
-                              : state is RatePairRatesResult
-                                  ? 'Pair result:\n ${state.pairCodes.conversionRate}'
+                  state is RatePairRatesResult
+                      ? 'Pair result:\n ${state.pairCodes.conversionRate}'
+                      : state is SecondRateSearch
+                          ? 'Pair rates'
+                          : state is FirstRateSearch
+                              ? 'Choose the second rate'
+                              : state is RateSearchDisplaySuccess
+                                  ? 'Select one rate'
                                   : state is RateInitial
                                       ? 'Choose the first rate'
                                       : '',
@@ -93,18 +93,19 @@ class _RateMainPageState extends State<RateMainPage> {
                             height: 10.w,
                           ),
                           InkWell(
-                            onTap: state is SecondRateSearch
+                            onTap: state is SecondRateSearch && state is! RatePairRatesResult
                                 ? () {
-                                    context
-                                        .read<RateBloc>()
-                                        .add(RatePairRateCodes(
-                                          firstCode: state.firstRateCode.code,
-                                          secondCode: state.secondRateCode.code,
-                                        ));
+                                    context.read<RateBloc>().add(
+                                          RatePairRateCodes(
+                                            firstCode: state.firstRateCode.code,
+                                            secondCode:
+                                                state.secondRateCode.code,
+                                          ),
+                                        );
                                   }
                                 : null,
                             child: Card(
-                              color: state is SecondRateSearch
+                              color: state is SecondRateSearch && state is! RatePairRatesResult
                                   ? Theme.of(context).colorScheme.onPrimary
                                   : Theme.of(context)
                                       .colorScheme

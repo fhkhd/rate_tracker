@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:rate_tracker/features/rate/domain/entities/pair_codes.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
@@ -21,6 +22,22 @@ class RateRepositoryImpl implements RateRepository {
     try {
       final rate = await rateRemoteDataSource.getRateCodes();
       return right(rate);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PairCodes>> pairRateCodes({
+    required String firstCode,
+    required String secondCode,
+  }) async {
+    try {
+      final pair = await rateRemoteDataSource.pairRateCodes(
+        firstCode: firstCode,
+        secondCode: secondCode,
+      );
+      return right(pair);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }

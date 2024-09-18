@@ -73,8 +73,8 @@ class _RateMainPageState extends State<RateMainPage> {
                           ? 'Choose the second rate'
                           : state is RateSearchDisplaySuccess
                               ? 'Select one rate'
-                              : state is PairRates
-                                  ? 'Pair result'
+                              : state is RatePairRatesResult
+                                  ? 'Pair result:\n ${state.pairCodes.conversionRate}'
                                   : state is RateInitial
                                       ? 'Choose the first rate'
                                       : '',

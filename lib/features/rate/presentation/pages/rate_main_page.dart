@@ -66,19 +66,16 @@ class _RateMainPageState extends State<RateMainPage> {
                           ),
                     ),
                   ),
-                Text(
-                  state is RatePairRatesResult
-                      ? 'Pair result:\n ${state.pairCodes.conversionRate}'
-                      : state is SecondRateSearch
-                          ? 'Pair rates'
-                          : state is FirstRateSearch
-                              ? 'Choose the second rate'
-                              : state is RateSearchDisplaySuccess
-                                  ? 'Select one rate'
-                                  : state is RateInitial
-                                      ? 'Choose the first rate'
-                                      : '',
-                ),
+                if (state is! RatePairRatesResult && state is! SecondRateSearch)
+                  Text(
+                    state is FirstRateSearch
+                        ? 'Choose the second rate'
+                        : state is RateSearchDisplaySuccess
+                            ? 'Select one rate'
+                            : state is RateInitial
+                                ? 'Choose the first rate'
+                                : '',
+                  ),
                 if (state is FirstRateSearch)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,9 +88,16 @@ class _RateMainPageState extends State<RateMainPage> {
                         children: [
                           SizedBox(
                             height: 10.w,
+                            child: Center(
+                              child: Icon(
+                                Icons.trending_flat_outlined,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                           ),
                           InkWell(
-                            onTap: state is SecondRateSearch && state is! RatePairRatesResult
+                            onTap: state is SecondRateSearch &&
+                                    state is! RatePairRatesResult
                                 ? () {
                                     context.read<RateBloc>().add(
                                           RatePairRateCodes(
@@ -105,7 +109,8 @@ class _RateMainPageState extends State<RateMainPage> {
                                   }
                                 : null,
                             child: Card(
-                              color: state is SecondRateSearch && state is! RatePairRatesResult
+                              color: state is SecondRateSearch &&
+                                      state is! RatePairRatesResult
                                   ? Theme.of(context).colorScheme.onPrimary
                                   : Theme.of(context)
                                       .colorScheme
@@ -118,8 +123,10 @@ class _RateMainPageState extends State<RateMainPage> {
                                   horizontal: 3.w,
                                   vertical: 1.h,
                                 ),
-                                child: const Text(
-                                  "Pair to",
+                                child: Text(
+                                  state is RatePairRatesResult
+                                      ? 'Paired to'
+                                      : "Pair to",
                                 ),
                               ),
                             ),
@@ -129,7 +136,7 @@ class _RateMainPageState extends State<RateMainPage> {
                               context.read<RateBloc>().add(RateRestSelection());
                             },
                             child: Text(
-                              "Rest",
+                              "Reset",
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall
@@ -153,10 +160,50 @@ class _RateMainPageState extends State<RateMainPage> {
                             ),
                     ],
                   ),
-                if (state is FirstRateSearch || state is SecondRateSearch)
-                  Padding(
-                    padding: EdgeInsets.all(1.w),
-                    child: const Divider(),
+                if (state is RatePairRatesResult)
+                  Card(
+                    margin: EdgeInsets.symmetric(
+                      vertical: 5.h,
+                      horizontal: 1.w,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 2.h,
+                        horizontal: 5.w,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Result : ',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                          ),
+                          Text(
+                            state.pairCodes.conversionRate,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 if (state is RateSearchDisplaySuccess)
                   Expanded(

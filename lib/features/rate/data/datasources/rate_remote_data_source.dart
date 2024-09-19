@@ -3,26 +3,25 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/secret/keys.dart';
 import '../models/pair_codes_model.dart';
 import '../models/rate_codes_model.dart';
 
 abstract interface class RateRemoteDataSource {
-  Future<RateCodesModel> getRateCodes();
+  Future<RateCodesModel> getRateCodes({required String apiKey});
 
   Future<PairCodesModel> pairRateCodes({
+    required String apiKey,
     required String firstCode,
     required String secondCode,
   });
-
-  Future<String> getApiKey();
 }
 
 class RateRemoteDataSourceImpl implements RateRemoteDataSource {
   @override
-  Future<RateCodesModel> getRateCodes() async {
+  Future<RateCodesModel> getRateCodes({
+    required String apiKey,
+  }) async {
     try {
-      String apiKey = await getApiKey();
       final response = await http.get(
         Uri.parse('https://v6.exchangerate-api.com/v6/$apiKey/codes'),
       );
@@ -37,18 +36,12 @@ class RateRemoteDataSourceImpl implements RateRemoteDataSource {
   }
 
   @override
-  Future<String> getApiKey() async {
-    SecretLoader secretLoader =
-        SecretLoader(secretPath: 'assets/secret/secret.json');
-    Secret secret = await secretLoader.load();
-    return secret.rateApiKey;
-  }
-
-  @override
-  Future<PairCodesModel> pairRateCodes(
-      {required String firstCode, required String secondCode}) async {
+  Future<PairCodesModel> pairRateCodes({
+    required String apiKey,
+    required String firstCode,
+    required String secondCode,
+  }) async {
     try {
-      String apiKey = await getApiKey();
       final response = await http.get(
         Uri.parse(
             'https://v6.exchangerate-api.com/v6/$apiKey/pair/$firstCode/$secondCode'),

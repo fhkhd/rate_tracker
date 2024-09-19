@@ -156,6 +156,7 @@ class _RateMainPageState extends State<RateMainPage> {
                               rateCode: RateCode(
                                 code: "",
                                 fullName: "",
+                                symbol: '',
                               ),
                             ),
                     ],

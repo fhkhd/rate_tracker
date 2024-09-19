@@ -15,9 +15,11 @@ class RateCodes {
 class RateCode {
   final String code;
   final String fullName;
+  String? symbol;
 
   RateCode({
     required this.code,
     required this.fullName,
+    this.symbol,
   });
 }

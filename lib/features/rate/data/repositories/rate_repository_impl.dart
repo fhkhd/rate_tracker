@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:rate_tracker/features/rate/data/datasources/rate_local_data_source.dart';
 import 'package:rate_tracker/features/rate/domain/entities/pair_codes.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -10,17 +11,23 @@ import '../datasources/rate_remote_data_source.dart';
 
 class RateRepositoryImpl implements RateRepository {
   final RateRemoteDataSource rateRemoteDataSource;
+  final RateLocalDataSource rateLocalDataSource;
   final ConnectionChecker connectionChecker;
 
   RateRepositoryImpl(
     this.rateRemoteDataSource,
+    this.rateLocalDataSource,
     this.connectionChecker,
   );
 
   @override
   Future<Either<Failure, RateCodes>> getRateCodes() async {
+    String apiKey = await rateLocalDataSource.getApiKey();
     try {
-      final rate = await rateRemoteDataSource.getRateCodes();
+      final rate = await rateRemoteDataSource.getRateCodes(apiKey: apiKey);
+      rate.supportedCodes?.forEach((element) {
+        element.symbol = '&#80;';
+      });
       return right(rate);
     } on ServerException catch (e) {
       return left(Failure(e.message));
@@ -32,8 +39,10 @@ class RateRepositoryImpl implements RateRepository {
     required String firstCode,
     required String secondCode,
   }) async {
+    String apiKey = await rateLocalDataSource.getApiKey();
     try {
       final pair = await rateRemoteDataSource.pairRateCodes(
+        apiKey: apiKey,
         firstCode: firstCode,
         secondCode: secondCode,
       );

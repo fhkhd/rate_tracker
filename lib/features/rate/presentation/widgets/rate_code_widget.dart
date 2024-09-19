@@ -38,7 +38,7 @@ class RateCodeWidget extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    htmlParser.DocumentFragment.html("&#36;").text ?? "",
+                    htmlParser.DocumentFragment.html(rateCode.symbol!).text ?? "",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,

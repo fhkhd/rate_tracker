@@ -19,10 +19,13 @@ void _initRate() {
     ..registerFactory<RateRemoteDataSource>(
       () => RateRemoteDataSourceImpl(),
     )
-
+    ..registerFactory<RateLocalDataSource>(
+      () => RateLocalDataSourceImpl(),
+    )
     // Repository
     ..registerFactory<RateRepository>(
       () => RateRepositoryImpl(
+        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
       ),

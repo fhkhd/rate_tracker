@@ -6,12 +6,18 @@ import 'package:html/dom.dart' as htmlParser;
 class RateCodeWidget extends StatelessWidget {
   final RateCode rateCode;
   final void Function()? onTap;
+  final bool isIntoList;
 
-  const RateCodeWidget({super.key, required this.rateCode, this.onTap});
+  const RateCodeWidget({
+    super.key,
+    required this.rateCode,
+    this.onTap,
+    this.isIntoList = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 35.w,
       width: 35.w,
       child: InkWell(
@@ -29,36 +35,40 @@ class RateCodeWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                width: 10.w,
-                height: 10.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Theme.of(context).colorScheme.onSecondary,
-                ),
-                child: Center(
-                  child: Text(
-                    htmlParser.DocumentFragment.html(rateCode.symbol!).text ?? "",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
+              if (rateCode.symbol != null && rateCode.symbol != "null")
+                Container(
+                  width: 10.w,
+                  height: 10.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  child: Center(
+                    child: Text(
+                      htmlParser.DocumentFragment.html(rateCode.symbol ?? '')
+                              .text ??
+                          '',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                    ),
                   ),
                 ),
-              ),
               Text(
                 rateCode.code,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              Text(
-                rateCode.fullName,
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall
-                    ?.copyWith(fontSize: 12.sp),
-              ),
+              if (!isIntoList)
+                Text(
+                  rateCode.fullName,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall
+                      ?.copyWith(fontSize: 12.sp),
+                ),
             ],
           ),
         ),

@@ -235,6 +235,7 @@ class _RateMainPageState extends State<RateMainPage> {
                                 );
                           }
                         },
+                        isIntoList: true,
                       ),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(

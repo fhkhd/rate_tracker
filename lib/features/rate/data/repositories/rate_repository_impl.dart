@@ -8,6 +8,7 @@ import '../../../../core/network/connection_checker.dart';
 import '../../domain/entities/rate_codes.dart';
 import '../../domain/repositories/rate_repository.dart';
 import '../datasources/rate_remote_data_source.dart';
+import '../models/currency_symbol_model.dart';
 
 class RateRepositoryImpl implements RateRepository {
   final RateRemoteDataSource rateRemoteDataSource;
@@ -23,10 +24,16 @@ class RateRepositoryImpl implements RateRepository {
   @override
   Future<Either<Failure, RateCodes>> getRateCodes() async {
     String apiKey = await rateLocalDataSource.getApiKey();
+    List<CurrencySymbolModel> currencies =
+        await rateLocalDataSource.getCurrencySymbols();
     try {
       final rate = await rateRemoteDataSource.getRateCodes(apiKey: apiKey);
-      rate.supportedCodes?.forEach((element) {
-        element.symbol = '&#80;';
+      rate.supportedCodes?.forEach((rateCode) {
+        for (var currency in currencies) {
+          if (currency.abbreviation == rateCode.code) {
+            rateCode.symbol = currency.symbol;
+          }
+        }
       });
       return right(rate);
     } on ServerException catch (e) {

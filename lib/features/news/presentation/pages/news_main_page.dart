@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rate_tracker/features/news/presentation/widgets/news_key_word_widget.dart';
+import 'package:sizer/sizer.dart';
 
 class NewsMainPage extends StatefulWidget {
   const NewsMainPage({super.key});
@@ -9,11 +10,55 @@ class NewsMainPage extends StatefulWidget {
 }
 
 class _NewsMainPageState extends State<NewsMainPage> {
+  List<String> newsKeyWord = [
+    'Latest News',
+    "pair-rate",
+    'currency',
+    "trade",
+    "business",
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("news page"),
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(2.w),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: newsKeyWord.length,
+                itemBuilder: (context, index) => NewsKeyWordWidget(
+                  keyWord: newsKeyWord[index],
+                  onTap: () async {
+                    // read event
+                  },
+                  isSelected: index == 0 ? true : false,
+                ),
+              ),
+            ),
+            Expanded(
+                flex: 10,
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: 40,
+                  itemBuilder: (context, index) => SizedBox(
+                    height: 5.h,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          width: 1,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }

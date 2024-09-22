@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_tracker/features/news/presentation/widgets/news_key_word_widget.dart';
+import 'package:rate_tracker/features/rate/presentation/widgets/news_item_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class NewsMainPage extends StatefulWidget {
@@ -40,23 +41,13 @@ class _NewsMainPageState extends State<NewsMainPage> {
               ),
             ),
             Expanded(
-                flex: 10,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: 40,
-                  itemBuilder: (context, index) => SizedBox(
-                    height: 5.h,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ))
+              flex: 10,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: 40,
+                itemBuilder: (context, index) => const NewsItemWidget(),
+              ),
+            ),
           ],
         ),
       ),

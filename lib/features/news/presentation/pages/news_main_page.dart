@@ -44,7 +44,7 @@ class _NewsMainPageState extends State<NewsMainPage> {
               flex: 10,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: 40,
+                itemCount: 10,
                 itemBuilder: (context, index) => const NewsItemWidget(),
               ),
             ),

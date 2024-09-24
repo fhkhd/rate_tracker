@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class NewsItemWidget extends StatelessWidget {
@@ -46,7 +47,7 @@ class NewsItemWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     Text(
-                      "2024-08-26T06:40:40Z",
+                      dateConverter("2024-08-26T06:40:40Z"),
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],
@@ -57,5 +58,14 @@ class NewsItemWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // will be in use case
+  String dateConverter(String serverDate) {
+    DateTime dateTime = DateTime.parse(serverDate);
+
+    DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm:ss');
+    String formattedDate = formatter.format(dateTime);
+    return formattedDate;
   }
 }

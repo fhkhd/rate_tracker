@@ -12,11 +12,11 @@ class NewsMainPage extends StatefulWidget {
 
 class _NewsMainPageState extends State<NewsMainPage> {
   List<String> newsKeyWord = [
-    'Latest News',
     "pair-rate",
+    'business',
     'currency',
     "trade",
-    "business",
+    "bitcoin",
   ];
 
   @override

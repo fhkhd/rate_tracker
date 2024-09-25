@@ -5,10 +5,10 @@ import 'package:rate_tracker/features/news/domain/repositories/news_repository.d
 
 import '../entities/article.dart';
 
-class GetNews implements UseCase<List<Article>, NewsQuery> {
+class GetArticles implements UseCase<List<Article>, NewsQuery> {
   final NewsRepository newsRepository;
 
-  GetNews(this.newsRepository);
+  GetArticles(this.newsRepository);
 
   @override
   Future<Either<Failure, List<Article>>> call(NewsQuery params) async {

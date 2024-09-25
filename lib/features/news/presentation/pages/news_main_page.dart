@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_tracker/features/news/presentation/widgets/news_key_word_widget.dart';
 import 'package:rate_tracker/features/rate/presentation/widgets/news_item_widget.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../core/utils/show_snackbar.dart';
+import '../bloc/news_bloc.dart';
 
 class NewsMainPage extends StatefulWidget {
   const NewsMainPage({super.key});
@@ -22,34 +26,43 @@ class _NewsMainPageState extends State<NewsMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(2.w),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: newsKeyWord.length,
-                itemBuilder: (context, index) => NewsKeyWordWidget(
-                  keyWord: newsKeyWord[index],
-                  onTap: () async {
-                    // read event
-                  },
-                  isSelected: index == 0 ? true : false,
+      body: BlocConsumer<NewsBloc, NewsState>(
+        listener: (BuildContext context, NewsState state) {
+          if (state is NewsFailure) {
+            showSnackBar(context, state.error);
+          }
+        },
+        builder: (BuildContext context, NewsState state) {
+          return Padding(
+            padding: EdgeInsets.all(2.w),
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: newsKeyWord.length,
+                    itemBuilder: (context, index) => NewsKeyWordWidget(
+                      keyWord: newsKeyWord[index],
+                      onTap: () async {
+                        // read event
+                      },
+                      isSelected: index == 0 ? true : false,
+                    ),
+                  ),
                 ),
-              ),
+                Expanded(
+                  flex: 10,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: 10,
+                    itemBuilder: (context, index) => const NewsItemWidget(),
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 10,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 10,
-                itemBuilder: (context, index) => const NewsItemWidget(),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

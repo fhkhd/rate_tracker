@@ -76,7 +76,7 @@ void _initNews() {
     // Bloc
     ..registerLazySingleton(
       () => NewsBloc(
-        serviceLocator(),
+        getArticles: serviceLocator(),
       ),
     );
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rate_tracker/features/news/domain/entities/article.dart';
 import 'package:sizer/sizer.dart';
 
 class NewsItemWidget extends StatelessWidget {
+  final Article article;
+
   const NewsItemWidget({
     super.key,
+    required this.article,
   });
 
   @override
@@ -37,17 +41,17 @@ class NewsItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Why Google is back in court for another monopoly showdown",
+                      article.title,
                       style: Theme.of(context).textTheme.titleMedium,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      "Business Insider",
+                      article.name,
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     Text(
-                      dateConverter("2024-08-26T06:40:40Z"),
+                      dateConverter(article.publishedAt),
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import 'core/theme/theme.dart';
+import 'features/news/presentation/bloc/news_bloc.dart';
 import 'features/rate/presentation/bloc/rate_bloc.dart';
 import 'home.dart';
 import 'init_dependencies.dart';
@@ -14,6 +15,9 @@ void main() async {
     providers: [
       BlocProvider(
         create: (_) => serviceLocator<RateBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<NewsBloc>(),
       ),
     ],
     child: const MyApp(),

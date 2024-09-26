@@ -5,8 +5,16 @@ sealed class NewsState {}
 
 final class NewsInitial extends NewsState {}
 
+final class NewsLoading extends NewsState {}
+
 final class NewsFailure extends NewsState {
   final String error;
 
   NewsFailure(this.error);
+}
+
+final class ArticleDisplaySuccess extends NewsState {
+  final List<Article> articles;
+
+  ArticleDisplaySuccess(this.articles);
 }

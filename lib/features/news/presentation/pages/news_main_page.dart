@@ -46,6 +46,11 @@ class _NewsMainPageState extends State<NewsMainPage> {
                       keyWord: newsKeyWord[index],
                       onTap: () async {
                         // read event
+                        context.read<NewsBloc>().add(
+                              NewsSelectChip(
+                                query: newsKeyWord[index],
+                              ),
+                            );
                       },
                       isSelected: index == 0 ? true : false,
                     ),
@@ -53,11 +58,17 @@ class _NewsMainPageState extends State<NewsMainPage> {
                 ),
                 Expanded(
                   flex: 10,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: 10,
-                    itemBuilder: (context, index) => const NewsItemWidget(),
-                  ),
+                  child: state is ArticleDisplaySuccess
+                      ? ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: state.articles.length,
+                          itemBuilder: (context, index) => NewsItemWidget(
+                            article: state.articles[index],
+                          ),
+                        )
+                      : const Center(
+                          child: Text("no news"),
+                        ),
                 ),
               ],
             ),

@@ -21,7 +21,7 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     List<ArticleModel> articleModels = [];
     try {
       final response = await http.get(
-        Uri.parse('https://newsapi.org/v2/everything?apiKey=${apiKey}q=$query'),
+        Uri.parse('https://newsapi.org/v2/everything?apiKey=${apiKey}&q=$query'),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         var articles = jsonDecode(response.body)['articles'] as List?;

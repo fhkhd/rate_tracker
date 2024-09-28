@@ -52,7 +52,10 @@ class _NewsMainPageState extends State<NewsMainPage> {
                               ),
                             );
                       },
-                      isSelected: index == 0 ? true : false,
+                      isSelected: (state is ArticleDisplaySuccess &&
+                              state.query == newsKeyWord[index])
+                          ? true
+                          : false,
                     ),
                   ),
                 ),

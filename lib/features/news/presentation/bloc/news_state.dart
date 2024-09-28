@@ -15,6 +15,7 @@ final class NewsFailure extends NewsState {
 
 final class ArticleDisplaySuccess extends NewsState {
   final List<Article> articles;
+  final String query;
 
-  ArticleDisplaySuccess(this.articles);
+  ArticleDisplaySuccess(this.articles, this.query);
 }

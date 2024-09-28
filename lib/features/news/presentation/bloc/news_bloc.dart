@@ -27,7 +27,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     ));
     res.fold(
       (l) => emit(NewsFailure(l.message)),
-      (r) => emit(ArticleDisplaySuccess(r)),
+      (r) => emit(ArticleDisplaySuccess(r, event.query)),
     );
   }
 }

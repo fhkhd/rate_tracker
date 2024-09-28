@@ -26,11 +26,32 @@ class NewsItemWidget extends StatelessWidget {
               padding: EdgeInsets.all(1.w),
               child: Card(
                 color: Theme.of(context).colorScheme.secondaryContainer,
-                child: Icon(
-                  Icons.image_outlined,
-                  size: 20.w,
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
+                child: article.urlToImage != 'null'
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          article.urlToImage,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Icon(
+                        Icons.image_outlined,
+                        size: 20.w,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
               ),
             ),
             Expanded(

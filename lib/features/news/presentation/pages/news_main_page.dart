@@ -24,6 +24,16 @@ class _NewsMainPageState extends State<NewsMainPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    context.read<NewsBloc>().add(
+          NewsSelectChip(
+            query: newsKeyWord[0],
+          ),
+        );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<NewsBloc, NewsState>(
@@ -69,9 +79,15 @@ class _NewsMainPageState extends State<NewsMainPage> {
                             article: state.articles[index],
                           ),
                         )
-                      : const Center(
-                          child: Text("no news"),
-                        ),
+                      : state is NewsLoading
+                          ? const Expanded(
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : const Center(
+                              child: Text("No news"),
+                            ),
                 ),
               ],
             ),

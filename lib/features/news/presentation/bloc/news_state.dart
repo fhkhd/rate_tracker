@@ -19,3 +19,13 @@ final class ArticleDisplaySuccess extends NewsState {
 
   ArticleDisplaySuccess(this.articles, this.query);
 }
+
+final class ArticleSelected extends ArticleDisplaySuccess {
+  final Article article;
+
+  ArticleSelected(
+    super.articles,
+    super.query,
+    this.article,
+  );
+}

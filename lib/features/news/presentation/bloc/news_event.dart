@@ -8,3 +8,15 @@ final class NewsSelectChip extends NewsEvent {
 
   NewsSelectChip({required this.query});
 }
+
+final class NewsSelectArticleCard extends NewsEvent {
+  final List<Article> articles;
+  final Article article;
+  final String query;
+
+  NewsSelectArticleCard({
+    required this.query,
+    required this.articles,
+    required this.article,
+  });
+}

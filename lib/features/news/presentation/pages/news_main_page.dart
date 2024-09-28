@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_tracker/features/news/presentation/widgets/news_key_word_widget.dart';
-import 'package:rate_tracker/features/rate/presentation/widgets/news_item_widget.dart';
+import 'package:rate_tracker/features/news/presentation/widgets/news_item_widget.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/utils/show_snackbar.dart';
@@ -43,6 +43,7 @@ class _NewsMainPageState extends State<NewsMainPage> {
           }
         },
         builder: (BuildContext context, NewsState state) {
+          print("state : ${state}");
           return Padding(
             padding: EdgeInsets.all(2.w),
             child: Column(
@@ -55,7 +56,6 @@ class _NewsMainPageState extends State<NewsMainPage> {
                     itemBuilder: (context, index) => NewsKeyWordWidget(
                       keyWord: newsKeyWord[index],
                       onTap: () async {
-                        // read event
                         context.read<NewsBloc>().add(
                               NewsSelectChip(
                                 query: newsKeyWord[index],
@@ -71,12 +71,25 @@ class _NewsMainPageState extends State<NewsMainPage> {
                 ),
                 Expanded(
                   flex: 10,
-                  child: state is ArticleDisplaySuccess
+                  child: (state is ArticleDisplaySuccess)
                       ? ListView.builder(
                           scrollDirection: Axis.vertical,
                           itemCount: state.articles.length,
                           itemBuilder: (context, index) => NewsItemWidget(
                             article: state.articles[index],
+                            onTap: () async {
+                              context.read<NewsBloc>().add(
+                                    NewsSelectArticleCard(
+                                      query: state.query,
+                                      articles: state.articles,
+                                      article: state.articles[index],
+                                    ),
+                                  );
+                            },
+                            isSelected: state is ArticleSelected &&
+                                    state.articles[index] == state.article
+                                ? true
+                                : false,
                           ),
                         )
                       : state is NewsLoading

@@ -16,6 +16,11 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         super(NewsInitial()) {
     on<NewsEvent>((event, emit) => emit(NewsLoading()));
     on<NewsSelectChip>(_onNewsSelectChip);
+    on<NewsSelectArticleCard>((event, emit) => emit(ArticleSelected(
+          event.articles,
+          event.query,
+          event.article,
+        )));
   }
 
   void _onNewsSelectChip(

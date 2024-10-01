@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rate_tracker/features/news/domain/entities/article.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsItemWidget extends StatelessWidget {
   final Article article;
@@ -76,17 +77,54 @@ class NewsItemWidget extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.tertiary,
                               ),
                       ),
-                      Text(
-                        article.title,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        article.name,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                      Text(
-                        dateConverter(article.publishedAt),
-                        style: Theme.of(context).textTheme.labelSmall,
+                      Padding(
+                        padding: EdgeInsets.all(2.w),
+                        child: Column(
+                          children: [
+                            Text(
+                              article.title,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  article.name,
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.link,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
+                                  onPressed: () async {
+                                    try {
+                                      var url = Uri.parse(article.url == 'null'
+                                          ? 'https://www.google.com/'
+                                          : article.url);
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url);
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  'Unable to launch ${url.query}')),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      print('Error launching URL: $e');
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                            Text(
+                              dateConverter(article.publishedAt),
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

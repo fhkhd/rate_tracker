@@ -35,26 +35,45 @@ class RateCodeWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if (rateCode.symbol != null && rateCode.symbol != "null")
-                Container(
-                  width: 10.w,
-                  height: 10.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
-                  child: Center(
-                    child: Text(
-                      htmlParser.DocumentFragment.html(rateCode.symbol ?? '')
-                              .text ??
-                          '',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
+              (rateCode.symbol != null && rateCode.symbol != "null")
+                  ? Container(
+                      width: 10.w,
+                      height: 10.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      child: Center(
+                        child: Text(
+                          htmlParser.DocumentFragment.html(
+                                      rateCode.symbol ?? '')
+                                  .text ??
+                              '',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: 10.w,
+                      height: 10.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.image_outlined,
+                          color: Theme.of(context).colorScheme.tertiary,
+                          size: 2.h,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
               Text(
                 rateCode.code,
                 textAlign: TextAlign.center,

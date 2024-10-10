@@ -26,54 +26,57 @@ class RateCodeWidget extends StatelessWidget {
           margin: EdgeInsets.all(1.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              width: 1,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            side: !isIntoList
+                ? BorderSide(
+                    width: 1,
+                    color: Theme.of(context).colorScheme.primary,
+                  )
+                : BorderSide.none,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              (rateCode.symbol != null && rateCode.symbol != "null")
-                  ? Container(
-                      width: 10.w,
-                      height: 10.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Theme.of(context).colorScheme.onSecondary,
-                      ),
-                      child: Center(
-                        child: Text(
-                          htmlParser.DocumentFragment.html(
-                                      rateCode.symbol ?? '')
-                                  .text ??
-                              '',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.tertiary,
-                              ),
+              if (rateCode.symbol != '')
+                (rateCode.symbol != null && rateCode.symbol != "null")
+                    ? Container(
+                        width: 10.w,
+                        height: 10.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
+                        child: Center(
+                          child: Text(
+                            htmlParser.DocumentFragment.html(
+                                        rateCode.symbol ?? '')
+                                    .text ??
+                                '',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: 10.w,
+                        height: 10.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.image_outlined,
+                            color: Theme.of(context).colorScheme.tertiary,
+                            size: 2.h,
+                          ),
                         ),
                       ),
-                    )
-                  : Container(
-                      width: 10.w,
-                      height: 10.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Theme.of(context).colorScheme.onSecondary,
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                          size: 2.h,
-                        ),
-                      ),
-                    ),
               Text(
                 rateCode.code,
                 textAlign: TextAlign.center,

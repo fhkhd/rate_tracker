@@ -36,3 +36,17 @@ final class RatePairRateCodes extends RateEvent {
     required this.secondCode,
   });
 }
+
+final class RateCalculateResult extends RateEvent {
+  final RateCode firstCode;
+  final RateCode secondCode;
+  final int index;
+  final PairCodes pairCodes;
+
+  RateCalculateResult(
+    this.firstCode,
+    this.secondCode,
+    this.index,
+    this.pairCodes,
+  );
+}

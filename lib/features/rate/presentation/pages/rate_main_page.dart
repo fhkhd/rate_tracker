@@ -162,49 +162,78 @@ class _RateMainPageState extends State<RateMainPage> {
                     ],
                   ),
                 if (state is RatePairRatesResult)
-                  Card(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 5.h,
-                      horizontal: 1.w,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 2.h,
-                        horizontal: 5.w,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Result : ',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                ),
+                  Column(
+                    children: [
+                      Card(
+                        margin: EdgeInsets.only(
+                          top: 5.h,
+                          left: 1.w,
+                          right: 1.w,
+                          bottom: 2.h,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
-                          Text(
-                            state.pairCodes.conversionRate,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 2.h,
+                            horizontal: 5.w,
                           ),
-                        ],
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Result : ',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                              ),
+                              Text(
+                                state.pairCodes.conversionRate,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      TextButton(
+                        onPressed: () {
+                          context.read<RateBloc>().add(RateCalculateResult(
+                                state.firstRateCode,
+                                state.secondRateCode,
+                                2,
+                                state.pairCodes,
+                              ));
+                        },
+                        child: Text(
+                          "Calculate?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                        ),
+                      ),
+                      if (state is RateCalculatePairedResult)
+                        Text(state.calculateResult)
+                    ],
                   ),
                 if (state is RateSearchDisplaySuccess)
                   Expanded(

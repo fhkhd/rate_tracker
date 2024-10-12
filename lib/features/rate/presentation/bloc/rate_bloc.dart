@@ -29,6 +29,11 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     on<RateRestSelection>(_onRateRestSelection);
     on<RatePairRateCodes>(_onRatePairRateCodes);
     on<RateCalculateResult>(_onRateCalculateResult);
+    on<RateShowCalculatePart>((event, emit) => emit(RateCalculatePairedResult(
+          event.pairCodes,
+          event.firstCode,
+          event.secondCode,
+        )));
   }
 
   void _onRateSearchRateCode(
@@ -97,7 +102,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
   ) async {
     double calculateResult =
         event.index * double.parse(event.pairCodes.conversionRate);
-    emit(RateCalculatePairedResult(
+    emit(RateCalculatedResult(
       event.pairCodes,
       event.firstCode,
       event.secondCode,

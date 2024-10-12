@@ -43,10 +43,18 @@ final class RatePairRatesResult extends SecondRateSearch {
 }
 
 final class RateCalculatePairedResult extends RatePairRatesResult {
+  RateCalculatePairedResult(
+    super.pairCodes,
+    super.firstRateCode,
+    super.secondRateCode,
+  );
+}
+
+final class RateCalculatedResult extends RateCalculatePairedResult {
   final int index;
   final String calculateResult;
 
-  RateCalculatePairedResult(
+  RateCalculatedResult(
     super.pairCodes,
     super.firstRateCode,
     super.secondRateCode,

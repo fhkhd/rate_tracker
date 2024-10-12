@@ -37,6 +37,18 @@ final class RatePairRateCodes extends RateEvent {
   });
 }
 
+final class RateShowCalculatePart extends RateEvent {
+  final RateCode firstCode;
+  final RateCode secondCode;
+  final PairCodes pairCodes;
+
+  RateShowCalculatePart(
+    this.firstCode,
+    this.secondCode,
+    this.pairCodes,
+  );
+}
+
 final class RateCalculateResult extends RateEvent {
   final RateCode firstCode;
   final RateCode secondCode;

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_tracker/core/utils/show_snackbar.dart';
 import 'package:rate_tracker/features/rate/presentation/widgets/rate_code_widget.dart';
+import 'package:rate_tracker/features/rate/presentation/widgets/rate_convert_button_widget.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../domain/entities/rate_codes.dart';
@@ -24,6 +26,7 @@ class _RateMainPageState extends State<RateMainPage> {
   @override
   Widget build(BuildContext context) {
     SearchController searchController = SearchController();
+    final indexController = TextEditingController();
     return Scaffold(
       body: BlocConsumer<RateBloc, RateState>(
         listener: (context, state) {
@@ -95,7 +98,10 @@ class _RateMainPageState extends State<RateMainPage> {
                               ),
                             ),
                           ),
-                          InkWell(
+                          RateConvertButtonWidget(
+                            text: state is RatePairRatesResult
+                                ? 'Paired to'
+                                : "Pair to",
                             onTap: state is SecondRateSearch &&
                                     state is! RatePairRatesResult
                                 ? () {
@@ -108,28 +114,8 @@ class _RateMainPageState extends State<RateMainPage> {
                                         );
                                   }
                                 : null,
-                            child: Card(
-                              color: state is SecondRateSearch &&
-                                      state is! RatePairRatesResult
-                                  ? Theme.of(context).colorScheme.onPrimary
-                                  : Theme.of(context)
-                                      .colorScheme
-                                      .secondaryContainer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 3.w,
-                                  vertical: 1.h,
-                                ),
-                                child: Text(
-                                  state is RatePairRatesResult
-                                      ? 'Paired to'
-                                      : "Pair to",
-                                ),
-                              ),
-                            ),
+                            isClicked: state is SecondRateSearch &&
+                                state is! RatePairRatesResult,
                           ),
                           TextButton(
                             onPressed: () {
@@ -212,26 +198,99 @@ class _RateMainPageState extends State<RateMainPage> {
                           ),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          context.read<RateBloc>().add(RateCalculateResult(
-                                state.firstRateCode,
-                                state.secondRateCode,
-                                2,
-                                state.pairCodes,
-                              ));
-                        },
-                        child: Text(
-                          "Calculate?",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.tertiary,
+                      state is RateCalculatePairedResult
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 20.w,
+                                  margin: EdgeInsets.all(2.w),
+                                  child: TextFormField(
+                                    controller: indexController,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 2,
+                                        horizontal: 3,
+                                      ),
+                                    ),
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 7.h, left: 0.5.w),
+                                  child: Text(
+                                    state.firstRateCode.code,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                  ),
+                                ),
+                                RateConvertButtonWidget(
+                                  text: '=',
+                                  isClicked: state is! RateCalculatedResult,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(2.w),
+                                  child: Text(
+                                    "?",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 7.h, left: 0.5.w),
+                                  child: Text(
+                                    state.secondRateCode.code,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : TextButton(
+                              onPressed: () {
+                                context
+                                    .read<RateBloc>()
+                                    .add(RateShowCalculatePart(
+                                      state.firstRateCode,
+                                      state.secondRateCode,
+                                      state.pairCodes,
+                                    ));
+                              },
+                              child: Text(
+                                "Calculate?",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary,
+                                    ),
                               ),
-                        ),
-                      ),
-                      if (state is RateCalculatePairedResult)
+                            ),
+                      if (state is RateCalculatedResult)
                         Text(state.calculateResult)
                     ],
                   ),

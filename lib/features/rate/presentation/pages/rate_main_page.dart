@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_tracker/core/utils/show_snackbar.dart';
 import 'package:rate_tracker/features/rate/presentation/widgets/rate_code_widget.dart';

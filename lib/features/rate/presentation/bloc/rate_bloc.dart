@@ -100,8 +100,8 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     RateCalculateResult event,
     Emitter<RateState> emit,
   ) async {
-    double calculateResult =
-        event.index * double.parse(event.pairCodes.conversionRate);
+    double calculateResult = double.parse(event.index) *
+        double.parse(event.pairCodes.conversionRate);
     emit(RateCalculatedResult(
       event.pairCodes,
       event.firstCode,

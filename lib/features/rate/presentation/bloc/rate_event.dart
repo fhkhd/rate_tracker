@@ -52,7 +52,7 @@ final class RateShowCalculatePart extends RateEvent {
 final class RateCalculateResult extends RateEvent {
   final RateCode firstCode;
   final RateCode secondCode;
-  final int index;
+  final String index;
   final PairCodes pairCodes;
 
   RateCalculateResult(

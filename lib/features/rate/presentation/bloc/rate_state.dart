@@ -51,7 +51,7 @@ final class RateCalculatePairedResult extends RatePairRatesResult {
 }
 
 final class RateCalculatedResult extends RateCalculatePairedResult {
-  final int index;
+  final String index;
   final String calculateResult;
 
   RateCalculatedResult(

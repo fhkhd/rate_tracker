@@ -238,17 +238,41 @@ class _RateMainPageState extends State<RateMainPage> {
                                 RateConvertButtonWidget(
                                   text: '=',
                                   isClicked: state is! RateCalculatedResult,
+                                  onTap: state is! RateCalculatedResult
+                                      ? () {
+                                          context
+                                              .read<RateBloc>()
+                                              .add(RateCalculateResult(
+                                                state.firstRateCode,
+                                                state.secondRateCode,
+                                                indexController.text,
+                                                state.pairCodes,
+                                              ));
+                                        }
+                                      : null,
                                 ),
                                 Container(
                                   margin: EdgeInsets.all(2.w),
+                                  width: 21.w,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  padding: EdgeInsets.all(1.w),
                                   child: Text(
-                                    "?",
+                                    state is RateCalculatedResult
+                                        ? state.calculateResult
+                                        : '?',
+                                    textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall
                                         ?.copyWith(
-                                            decoration:
-                                                TextDecoration.underline),
+                                          decoration: TextDecoration.underline,
+                                        ),
                                   ),
                                 ),
                                 Padding(
@@ -266,6 +290,28 @@ class _RateMainPageState extends State<RateMainPage> {
                                         ),
                                   ),
                                 ),
+                                TextButton(
+                                  onPressed: () {
+                                    context
+                                        .read<RateBloc>()
+                                        .add(RateShowCalculatePart(
+                                          state.firstRateCode,
+                                          state.secondRateCode,
+                                          state.pairCodes,
+                                        ));
+                                  },
+                                  child: Text(
+                                    "clear",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                        ),
+                                  ),
+                                )
                               ],
                             )
                           : TextButton(
@@ -290,8 +336,6 @@ class _RateMainPageState extends State<RateMainPage> {
                                     ),
                               ),
                             ),
-                      if (state is RateCalculatedResult)
-                        Text(state.calculateResult)
                     ],
                   ),
                 if (state is RateSearchDisplaySuccess)

@@ -119,6 +119,7 @@ class _RateMainPageState extends State<RateMainPage> {
                           TextButton(
                             onPressed: () {
                               context.read<RateBloc>().add(RateRestSelection());
+                              indexController.clear();
                             },
                             child: Text(
                               "Reset",

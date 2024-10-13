@@ -239,14 +239,16 @@ class _RateMainPageState extends State<RateMainPage> {
                                   isClicked: state is! RateCalculatedResult,
                                   onTap: state is! RateCalculatedResult
                                       ? () {
-                                          context
-                                              .read<RateBloc>()
-                                              .add(RateCalculateResult(
-                                                state.firstRateCode,
-                                                state.secondRateCode,
-                                                indexController.text,
-                                                state.pairCodes,
-                                              ));
+                                          if (indexController.text != "") {
+                                            context
+                                                .read<RateBloc>()
+                                                .add(RateCalculateResult(
+                                                  state.firstRateCode,
+                                                  state.secondRateCode,
+                                                  indexController.text,
+                                                  state.pairCodes,
+                                                ));
+                                          }
                                         }
                                       : null,
                                 ),
@@ -298,6 +300,7 @@ class _RateMainPageState extends State<RateMainPage> {
                                           state.secondRateCode,
                                           state.pairCodes,
                                         ));
+                                    indexController.clear();
                                   },
                                   child: Text(
                                     "clear",

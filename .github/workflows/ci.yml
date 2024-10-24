@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - master
+      - Set_CICD
 
 jobs:
   build:

@@ -24,13 +24,13 @@ jobs:
           channel: 'stable'
           flutter-version: '3.24.1'
 
-      - name: Install dependencies
-        run: flutter pub get
-
       - name: Store secrets in json file
         run: |
           mkdir -p assets/secret
           echo '{ "rate_api_key": "${{ secrets.RATE_API_KEY }}", "news_api_key": "${{ secrets.NEWS_API_KEY }}" }' > assets/secret/secret.json
+
+      - name: Install dependencies
+        run: flutter pub get
 
       - name: Build APK
         run: flutter build apk --release

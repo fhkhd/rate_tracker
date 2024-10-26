@@ -27,7 +27,10 @@ jobs:
       - name: Store secrets in json file
         run: |
           mkdir -p assets/secret
-          echo '{ "rate_api_key": "${{ secrets.RATE_API_KEY }}", "news_api_key": "${{ secrets.NEWS_API_KEY }}" }' > assets/secret/secret.json
+          echo "{\"rate_api_key\": \"${{ secrets.RATE_API_KEY }}\", \"news_api_key\": \"${{ secrets.NEWS_API_KEY }}\"}" > assets/secret/secret.json
+
+      - name: Verify JSON contents
+        run: cat assets/secret/secret.json
 
       - name: Install dependencies
         run: flutter pub get

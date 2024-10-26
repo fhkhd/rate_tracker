@@ -29,14 +29,14 @@ jobs:
           mkdir -p assets/secret
           echo "{\"rate_api_key\": \"${{ secrets.RATE_API_KEY }}\", \"news_api_key\": \"${{ secrets.NEWS_API_KEY }}\"}" > assets/secret/secret.json
 
-      - name: Verify APK contents
-        run: unzip -l build/app/outputs/flutter-apk/app-release.apk | grep 'assets/secret/secret.json'
-
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build APK
         run: flutter build apk --release
+
+      - name: Verify APK contents
+        run: unzip -l build/app/outputs/flutter-apk/app-release.apk | grep 'assets/secret/secret.json'
 
       - name: Upload APK
         uses: actions/upload-artifact@v3

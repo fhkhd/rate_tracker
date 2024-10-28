@@ -4,8 +4,8 @@ A Flutter app for viewing currency-related news and calculating paired rates.
 
 ## Features
 
-- **Real-Time News**: Fetches the latest articles from News API.
 - **Currency Exchange Rates**: Retrieves current exchange rates for various currencies and allows users to easily calculate conversions.
+- **Real-Time News**: Fetches the latest articles from News API.
 - **Local Symbols**: Stores rate symbols in a local JSON file for quick access.
 - **GitHub Actions Workflow**: Automates the APK build and allows downloading the latest APK from latest successful build while keeping API keys secure.
 
